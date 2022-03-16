@@ -1,0 +1,19 @@
+{
+  "name": "fasal-mitra",
+  "version": "1.0.0",
+  "description": "An automated plant disease detection app\r * This app will help farmers to detect the diseases and how can they overcome it.  ​",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SIH-22/Fasal-Mitra.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SIH-22/Fasal-Mitra/issues"
+  },
+  "homepage": "https://github.com/SIH-22/Fasal-Mitra#readme"
+}

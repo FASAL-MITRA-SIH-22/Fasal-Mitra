@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/SIH-22/Fasal-Mitra/issues"
   },
-  "homepage": "https://github.com/SIH-22/Fasal-Mitra#readme"
+  "homepage": "https://github.com/SIH-22/Fasal-Mitra#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
 }

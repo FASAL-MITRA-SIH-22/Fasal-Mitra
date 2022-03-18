@@ -4,17 +4,17 @@ import requests
 import io
 from PIL import Image
 import time
+import os
 
 PATH = r"C:/chromedriver_win32/chromedriver.exe"
 
 wd = webdriver.Chrome(executable_path = PATH)
 
-def get_images_from_google(wd, delay, max_images):
+def get_images_from_google(wd, delay, max_images, url):
 	def scroll_down(wd):
 		wd.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 		time.sleep(delay)
 
-	url = "https://www.google.com/search?q=tomato+leaf+curl&client=firefox-b-d&sxsrf=APq-WBu63Qg4-TdwTZ3Nxotig_d_44hsVg:1647549109418&source=lnms&tbm=isch&sa=X&ved=2ahUKEwj2yKrb_s32AhU4UWwGHaUgB0IQ_AUoAXoECAIQAw&biw=1366&bih=615&dpr=1"
 	wd.get(url)
 
 	image_urls = set()
@@ -24,6 +24,9 @@ def get_images_from_google(wd, delay, max_images):
 		scroll_down(wd)
 
 		thumbnails = wd.find_elements(By.CLASS_NAME, "Q4LuWd")
+		
+		if len(thumbnails) == 0:
+			break
 
 		for img in thumbnails[len(image_urls) + skips:max_images]:
 			try:
@@ -60,9 +63,18 @@ def download_image(download_path, url, file_name):
 	except Exception as e:
 		print('FAILED -', e)
 
-urls = get_images_from_google(wd, 1, 200)
+def download_images(urls, folder_name):
+	try:
+		os.mkdir(folder_name)
+	except Exception as e:
+		print(e)
+	for i, url in enumerate(urls):
+		download_image(f"{folder_name}/", url, str(i) + ".jpg")
+urls = get_images_from_google(wd, 1, 200, "https://www.google.com/search?q=tomato&client=firefox-b-d&sxsrf=APq-WBs1f3VpsGvcM5vfIRKFMCVFVXpaLg:1647609736963&source=lnms&tbm=isch&sa=X&ved=2ahUKEwj0lubI4M_2AhXZTmwGHSnYCmQQ_AUoAXoECAIQAw&biw=1366&bih=615&dpr=1")
 
-for i, url in enumerate(urls):
-	download_image("Tomato_Leaf_Curl/", url, str(i) + ".jpg")
+download_images(urls, "Tomato_Early_Blight")
 
 wd.quit()
+
+# get_images_from_google takes google images as url and stores it in folder mentioned in download_image
+# download_image does not create folder

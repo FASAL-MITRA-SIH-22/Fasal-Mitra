@@ -15,8 +15,8 @@ def hello():
 
 @blueprint.route('/prediction',methods=['POST'])
 def predict():
-    print(request.json)
     crop_image =request.files['crop_image']
-    crop_name =request.json['crop_name']
+    crop_name =request.form['crop_name']
 
-    print(tfmodels.getPrediction(crop_image,crop_name))
+    predicted_class, confidence = tfmodels.getPrediction(crop_image,crop_name)
+    return f"{predicted_class},{confidence}"

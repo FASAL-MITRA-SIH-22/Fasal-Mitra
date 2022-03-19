@@ -1,0 +1,1 @@
+Bacterial_spot,Early_blight,healthy,Late_blight,Leaf_Mold,Septoria_leaf_spot,Spider_mites_Two_spotted_spider_mite,Target_Spot,Tomato_mosaic_virus,Tomato_YellowLeaf

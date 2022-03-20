@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 
 const UserSchema = new mongoose.Schema({
   firstName: {
@@ -39,26 +38,6 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// After doc save
-UserSchema.post("save", function (doc, next) {
-  console.log("New user was created & saved", doc);
-  next();
-});
-
-//fire a function before doc saved to db
-UserSchema.pre("save", async function (next) {
-  const salt = await bcrypt.genSalt();
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
-});
-
-UserSchema.methods.isValidPassword = async function (password) {
-  try {
-    return await bcrypt.compare(password, this.password);
-  } catch (err) {
-    throw err;
-  }
-};
 
 const User = mongoose.model("user", UserSchema);
 

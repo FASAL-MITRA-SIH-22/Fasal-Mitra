@@ -3,10 +3,8 @@ const createHttpError = require("http-errors");
 const { signJWT } = require("../helpers/jwtSign.helper");
 const { verifyJWT } = require("../helpers/jwtVerify.helper");
 const { redisClient } = require("../configs/redis.config");
-const {
-  registerSchema,
-  loginSchema,
-} = require("../validations/Auth.validation");
+const { registerSchema, loginSchema } = require("../validations/Auth.validation");
+const bcrypt = require("bcrypt");
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
@@ -19,7 +17,7 @@ const cookieOptions = {
 
 const register = async (req, res, next) => {
   try {
-    const result = await registerSchema.validateAsync(req.body);
+    let result = await registerSchema.validateAsync(req.body);
 
     const existingUser = await User.findOne({ username: result.username });
 
@@ -45,6 +43,9 @@ const register = async (req, res, next) => {
         );
     }
 
+    const salt = await bcrypt.genSalt(10);
+    result['password'] = await bcrypt.hash(result.password, salt);
+
     const user = new User(result);
     let savedUser = await user.save();
 
@@ -66,7 +67,8 @@ const register = async (req, res, next) => {
       });
   } catch (err) {
     if (err.isJoi === true)
-      return next(createHttpError.UnprocessableEntity("Invalid Credentials"));
+      {console.log(err)
+      return next(createHttpError.UnprocessableEntity("Invalid Credentials"));}
 
     // mongoDB duplicate error
     if (err.code === 11000)
@@ -106,8 +108,7 @@ const login = async (req, res, next) => {
     let user = await User.findOne({ username: result.username });
 
     if (!user) throw createHttpError.NotFound("User not registerd");
-
-    const isMatch = await user.isValidPassword(result.password);
+    const isMatch = await bcrypt.compare(result.password, user.password);
     if (!isMatch)
       throw createHttpError.Unauthorized("Username/Password not valid");
 
@@ -151,6 +152,19 @@ const logout = async (req, res, next) => {
 
 const authorization = async (req, res, next) => {
   try {
+    verifyJWT(req.signedCookies.accessToken).
+      then((response) => {
+        if (uid) {
+          res.setHeader('x-uid', uid)
+          res.status(200).json({
+            authorize: true,
+            uid,
+          })
+        }
+      })
+      .catch((error) => {
+
+      })
   } catch (err) {
     next(err);
   }

@@ -26,12 +26,13 @@ app.use(
 
 app.use("/api/auth", authRoutes);
 
-app.get("/", (req, res) => {
+app.get("/api/auth", (req, res) => {
   res.json({ message: "base url" });
 });
 
 //Invalid route
 app.use(async (req, res, next) => {
+  console.log(req.url)
   next(createHttpError.NotFound("This route does not exist"));
 });
 
@@ -47,5 +48,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log("Auth service listening on port 8080");
+  console.log(`Auth service listening on port ${port}`);
 });

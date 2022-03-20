@@ -4,8 +4,10 @@ import os
 from PIL import Image
 
 class TfModels:
-    crops = []## crop names
-    classes = {}#Classes of diseases
+    # crop names
+    crops = []
+    #Classes of diseases
+    classes = {}
     models = {}
     def __init__(self):
         current_dir = f"{os. getcwd()}/app"

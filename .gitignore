@@ -1,2 +1,2 @@
-Tomato_healthy/
-Tomato_Leaf_curl/
+web-scraping/*
+!web-scraping/images.py

@@ -8,13 +8,11 @@ import os
 
 PATH = r"C:/chromedriver_win32/chromedriver.exe"
 
-wd = webdriver.Chrome(executable_path = PATH)
 
 def get_images_from_google(wd, delay, max_images, url):
 	def scroll_down(wd):
 		wd.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 		time.sleep(delay)
-
 	wd.get(url)
 
 	image_urls = set()
@@ -49,7 +47,7 @@ def get_images_from_google(wd, delay, max_images, url):
 	return image_urls
 
 
-def download_image(download_path, url, file_name):
+def download_image(download_path, url,file_name):
 	try:
 		image_content = requests.get(url).content
 		image_file = io.BytesIO(image_content)
@@ -63,17 +61,29 @@ def download_image(download_path, url, file_name):
 	except Exception as e:
 		print('FAILED -', e)
 
-def download_images(urls, folder_name):
+def download_images(urls, vegetable,folder_name):
 	try:
-		os.mkdir(folder_name)
+		os.mkdir(vegetable)
+	except Exception as e:
+		print(e)
+	try:
+		os.mkdir(f"{vegetable}/{folder_name}")
 	except Exception as e:
 		print(e)
 	for i, url in enumerate(urls):
-		download_image(f"{folder_name}/", url, str(i) + ".jpg")
-urls = get_images_from_google(wd, 1, 200, "https://www.google.com/search?q=tomato&client=firefox-b-d&sxsrf=APq-WBs1f3VpsGvcM5vfIRKFMCVFVXpaLg:1647609736963&source=lnms&tbm=isch&sa=X&ved=2ahUKEwj0lubI4M_2AhXZTmwGHSnYCmQQ_AUoAXoECAIQAw&biw=1366&bih=615&dpr=1")
+		download_image(f"{vegetable}/{folder_name}/", url, str(i) + ".jpg")
 
-download_images(urls, "Tomato_Early_Blight")
+wd = webdriver.Chrome(executable_path = PATH)
 
+with open("./input.txt") as f:
+	lines = f.readlines()
+
+lines = [x.replace("\n", "") for x in lines]
+urls = get_images_from_google(wd, 1, 10, lines[1])
+
+download_images(urls, lines[3], lines[2])
+
+print(lines)
 wd.quit()
 
 # get_images_from_google takes google images as url and stores it in folder mentioned in download_image

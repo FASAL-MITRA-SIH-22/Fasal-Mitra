@@ -16,6 +16,7 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+    unique: [true, "Email shoul be unique"]
   },
   phone: {
     type: String,

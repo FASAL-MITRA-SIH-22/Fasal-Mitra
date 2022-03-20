@@ -21,25 +21,26 @@ const register = async (req, res, next) => {
   try {
     const result = await registerSchema.validateAsync(req.body);
 
-    const existingUser = await User.findOne({ username: result.username });
+    const existingUser = await User.findOne({
+      $or: [
+        { username: result.username },
+        { phone: result.phone },
+        { email: result.email },
+      ],
+    });
 
     if (existingUser) {
-      throw createHttpError.Conflict(
-        `${result.username} is already been registered`
-      );
-    }
+      if (existingUser.username === result.username)
+        throw createHttpError.Conflict(
+          `${result.username} is already been registered`
+        );
 
-    const existingPhoneUser = await User.findOne({ phone: result.phone });
+      if (existingUser.phone === result.phone)
+        throw createHttpError.Conflict(
+          `${result.phone} is already been registered`
+        );
 
-    if (existingPhoneUser)
-      throw createHttpError.Conflict(
-        `${result.phone} is already been registered`
-      );
-
-    if (result.email) {
-      const existingEmailUser = await User.findOne({ email: result.email });
-
-      if (existingEmailUser)
+      if (existingUser.email === result.email)
         throw createHttpError.Conflict(
           `${result.email} is already been registered`
         );
@@ -69,12 +70,9 @@ const register = async (req, res, next) => {
       return next(createHttpError.UnprocessableEntity("Invalid Credentials"));
 
     // mongoDB duplicate error
-    if (err.code === 11000)
-      return next(
-        createHttpError.Conflict(
-          "User Already exists with the provided credentials"
-        )
-      );
+    if (err.code === 11000) {
+      return next(createHttpError.Conflict(err.name));
+    }
 
     next(err);
   }

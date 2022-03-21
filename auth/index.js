@@ -3,9 +3,10 @@ const express = require("express");
 const cors = require("cors");
 const createHttpError = require("http-errors");
 const app = express();
-const authRoutes = require("./routes/Auth.route");
 const cookieParser = require("cookie-parser");
-const port = process.env.PORT || 8080;
+const morgan = require("morgan")
+
+const authRoutes = require("./routes/Auth.route");
 
 // database connection
 require("./configs/mongodb.config");
@@ -13,9 +14,12 @@ require("./configs/mongodb.config");
 //redis connection
 require("./configs/redis.config");
 
+const port = process.env.PORT || 8080;
+
 // middlewares
 app.use(express.json());
 app.use(cookieParser("secret"));
+app.use(morgan("dev"))
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({

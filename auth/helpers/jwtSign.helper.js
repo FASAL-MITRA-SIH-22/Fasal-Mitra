@@ -7,7 +7,7 @@ const expiresIn = process.env.EXPIRATION_TIME;
 
 const signJWT = async (payload) => {
   return new Promise((resolve, reject) => {
-    if (payload && "_id" in payload) {
+    if (payload?.userId) {
       jsonwebtoken.sign(
         payload,
         PUB_KEY,

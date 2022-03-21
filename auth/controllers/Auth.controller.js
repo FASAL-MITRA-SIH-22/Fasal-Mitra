@@ -50,9 +50,9 @@ const register = async (req, res, next) => {
     const user = new User(result);
     let savedUser = await user.save();
 
-    const accessToken = await signJWT({ _id: savedUser._id });
+    const accessToken = await signJWT({ userId: savedUser._id });
 
-    await redisClient.set(accessToken, "", { EX: maxAge / 10 }); // value is in seconds be careful!!
+    await redisClient.set(savedUser._id, accessToken, { EX: maxAge / 10 }); // value is in seconds be careful!!
 
     // removing secret data
     savedUser = savedUser.toObject();
@@ -110,14 +110,15 @@ const login = async (req, res, next) => {
     if (!isMatch)
       throw createHttpError.Unauthorized("Username/Password not valid");
 
-    const accessToken = await signJWT({ _id: user._id });
+    const accessToken = await signJWT({userId: user._id});
 
+    await redisClient.set(user._id, accessToken, { EX: maxAge / 10 }); // value is in seconds be careful!!
+    
     // removing secret data
     user = user.toObject();
     delete user.password;
     delete user._id;
 
-    await redisClient.set(accessToken, "", { EX: maxAge / 10 }); // value is in seconds be careful!!
     return res
       .cookie("accessToken", accessToken, cookieOptions)
       .status(200)
@@ -137,8 +138,8 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-    await verifyJWT(req.signedCookies.accessToken);
-    await redisClient.del(req.signedCookies.accessToken);
+    const decoded = await verifyJWT(req.signedCookies.accessToken);
+    await redisClient.del(decoded.userId);
     res
       .cookie("accessToken", "", { maxAge: 0 })
       .status(200)

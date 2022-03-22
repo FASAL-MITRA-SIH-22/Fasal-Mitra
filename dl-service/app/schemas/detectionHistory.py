@@ -7,10 +7,14 @@ detectionHistory_schema = {
     "properties": {
         "createdAt": {
             "type": "string",
+            "format": "date-time"
         },
         "ip": {
             "type": "string",
         },
+        "country":{
+            "type": "string",
+        }
         "location": {
             "x":{
                  "type": "number",
@@ -20,10 +24,10 @@ detectionHistory_schema = {
             }
         },
         "plantId":{
-            "type":"string"
+            "bsonType":"string"
         },
         "diseaseId":{
-            "type":"string"
+            "bsonType":"string"
         },
         "rating":{
             "type":"number"

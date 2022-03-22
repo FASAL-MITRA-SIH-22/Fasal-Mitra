@@ -1,5 +1,6 @@
 from app.controllers import blueprint,tfmodels,mongo,jsonify,datetime
 from app.schemas import validate_detectionHistory
+from bson.objectid import ObjectId
 
 @blueprint.route('/',methods=["GET"])
 def hello():
@@ -19,9 +20,12 @@ def test():
 
 @blueprint.route('/prediction/test',methods=['GET'])
 def test1():
-    data = validate_detectionHistory({"createdAt":datetime.now()})
+    print(ObjectId("623a3d74960a9f8526395e08"))
+    data = validate_detectionHistory({"createdAt":str(datetime.now()),"plantId":ObjectId("623a3d74960a9f8526395e08")})
     if data['ok']:
         data = data['data']
+        print(mongo.db.detectionHistory.find_one())
+        print(type(mongo.db.detectionHistory.find_one()['_id']))
         mongo.db.detectionHistory.insert_one(data)
         return jsonify({'ok': True, 'message': 'User created successfully!','detectionHistory':data}), 200
     

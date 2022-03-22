@@ -1,9 +1,14 @@
 const User = require("../models/User.model");
 const createHttpError = require("http-errors");
+const ipInfo = require("ip-info-finder");
+
 const { signJWT } = require("../helpers/jwtSign.helper");
 const { verifyJWT } = require("../helpers/jwtVerify.helper");
 const { redisClient } = require("../configs/redis.config");
-const { registerSchema, loginSchema } = require("../validations/Auth.validation");
+const {
+  registerSchema,
+  loginSchema,
+} = require("../validations/Auth.validation");
 const bcrypt = require("bcrypt");
 
 const maxAge = process.env.EXPIRATION_TIME;
@@ -45,14 +50,14 @@ const register = async (req, res, next) => {
     }
 
     const salt = await bcrypt.genSalt(10);
-    result['password'] = await bcrypt.hash(result.password, salt);
+    result["password"] = await bcrypt.hash(result.password, salt);
 
     const user = new User(result);
     let savedUser = await user.save();
 
-    const accessToken = await signJWT({ _id: savedUser._id });
+    const accessToken = await signJWT({ userId: savedUser._id });
 
-    await redisClient.set(accessToken, "", { EX: maxAge / 10 }); // value is in seconds be careful!!
+    await redisClient.set(savedUser._id, accessToken, { EX: maxAge / 10 }); // value is in seconds be careful!!
 
     // removing secret data
     savedUser = savedUser.toObject();
@@ -67,9 +72,10 @@ const register = async (req, res, next) => {
         savedUser,
       });
   } catch (err) {
-    if (err.isJoi === true)
-      {console.log(err)
-      return next(createHttpError.UnprocessableEntity("Invalid Credentials"));}
+    if (err.isJoi === true) {
+      console.log(err);
+      return next(createHttpError.UnprocessableEntity("Invalid Credentials"));
+    }
 
     // mongoDB duplicate error
     if (err.code === 11000) {
@@ -110,14 +116,15 @@ const login = async (req, res, next) => {
     if (!isMatch)
       throw createHttpError.Unauthorized("Username/Password not valid");
 
-    const accessToken = await signJWT({ _id: user._id });
+    const accessToken = await signJWT({ userId: user._id });
+
+    await redisClient.set(user._id, accessToken, { EX: maxAge / 10 }); // value is in seconds be careful!!
 
     // removing secret data
     user = user.toObject();
     delete user.password;
     delete user._id;
 
-    await redisClient.set(accessToken, "", { EX: maxAge / 10 }); // value is in seconds be careful!!
     return res
       .cookie("accessToken", accessToken, cookieOptions)
       .status(200)
@@ -137,8 +144,8 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-    await verifyJWT(req.signedCookies.accessToken);
-    await redisClient.del(req.signedCookies.accessToken);
+    const decoded = await verifyJWT(req.signedCookies.accessToken);
+    await redisClient.del(decoded.userId);
     res
       .cookie("accessToken", "", { maxAge: 0 })
       .status(200)
@@ -149,21 +156,26 @@ const logout = async (req, res, next) => {
 };
 
 const authorization = async (req, res, next) => {
+  return res.send("hello");
   try {
-    verifyJWT(req.signedCookies.accessToken).
-      then((response) => {
-        if (uid) {
-          res.setHeader('x-uid', uid)
-          res.status(200).json({
-            authorize: true,
-            uid,
-          })
-        }
-      })
-      .catch((error) => {
+    const decoded = await verifyJWT(req.signedCookies.accessToken);
 
-      })
+    console.log({decoded})
+    if (!decoded?.userId) throw createHttpError.Unauthorized();
+
+      console.log(req.ip);
+      const ipData = await ipInfo.getIPInfo(req.ip);
+      console.log({ipData})
+
+      res.setHeader("x-uid", decoded.userId);
+
+      res.status(200).json({
+        authorize: true,
+        uid: decoded.userId,
+      });
+  
   } catch (err) {
+    console.log({err})
     next(err);
   }
 };

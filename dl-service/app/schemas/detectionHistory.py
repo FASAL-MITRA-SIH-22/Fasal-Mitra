@@ -12,9 +12,15 @@ detectionHistory_schema = {
         "ip": {
             "type": "string",
         },
-        "country":{
+        "city":{
             "type": "string",
-        }
+        },
+        "district":{
+            "type": "string",
+        },
+        "state":{
+            "type": "string",
+        },
         "location": {
             "x":{
                  "type": "number",

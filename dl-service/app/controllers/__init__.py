@@ -1,7 +1,7 @@
-from flask import Blueprint,jsonify
-from app.load_models import TfModels
+from flask import Blueprint,jsonify,request
 from app.db_config import mongo
 from datetime import datetime
+from app.resnet import ResNet
 
 blueprint = Blueprint(
       'app_blueprint',
@@ -9,4 +9,4 @@ blueprint = Blueprint(
     url_prefix='',
 )
 
-tfmodels = TfModels()
+resnet = ResNet()

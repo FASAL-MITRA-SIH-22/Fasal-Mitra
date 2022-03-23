@@ -88,9 +88,9 @@ const register = async (req, res, next) => {
 
 const viewAccount = async (req, res, next) => {
   try {
-    const userId = await verifyJWT(req.signedCookies.accessToken);
+    const decoded = await verifyJWT(req.signedCookies.accessToken);
 
-    let user = await User.findById(userId);
+    let user = await User.findById(decoded.userId);
 
     if (!user) createHttpError.NotFound("User not registered");
 
@@ -194,6 +194,8 @@ const authorization = async (req, res, next) => {
     res.setHeader("x-city", ipData.city.toLowerCase());
     res.setHeader("x-district", ipData.district.toLowerCase());
     res.setHeader("x-state", ipData.regionName.toLowerCase());
+    res.setHeader("x-lat", ipData.lat);
+    res.setHeader("x-lon", ipData.lon);
 
     res.status(200).json({
       authorize: true,

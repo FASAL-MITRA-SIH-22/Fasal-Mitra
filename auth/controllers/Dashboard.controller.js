@@ -27,7 +27,13 @@ const getMapData = async (req, res, next) => {
 
 const getTotalRequest = async (res, req, next) => {
   try {
-    
+    const result = await Dashboard.aggregate([
+      {
+        $group: {
+          _id: 
+        }
+      }
+    ])
   } catch (err) {
     next();
   }

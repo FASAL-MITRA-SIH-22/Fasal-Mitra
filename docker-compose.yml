@@ -8,6 +8,13 @@ services:
       - "8081:8080"
     networks:
       - web
+  dl:
+    build: ./auth
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - web
 
   nginx:
     image: nginx

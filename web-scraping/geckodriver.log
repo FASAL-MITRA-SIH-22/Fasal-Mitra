@@ -774,3 +774,23 @@ DevTools listening on ws://localhost:49899/devtools/browser/e5d4de65-d313-459f-b
 1648069180596	Marionette	INFO	Listening on port 44565
 1648069180663	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
 1648069199622	Marionette	INFO	Stopped listening on port 44565
+1648069343372	Marionette	INFO	Stopped listening on port 45651
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
+1648074130782	geckodriver	INFO	Listening on 127.0.0.1:46495
+1648074130789	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "52163" "-no-remote" "-profile" "/tmp/rust_mozprofileCFqkyB"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1648074131927	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileCFqkyB/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:52163/devtools/browser/b1be85f6-6aae-48f1-9d18-d9ccc26c5168
+1648074136289	Marionette	INFO	Listening on port 40905
+1648074136495	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1648074156908	Marionette	INFO	Stopped listening on port 40905
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+

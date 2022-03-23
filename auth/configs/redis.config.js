@@ -4,8 +4,8 @@ let redisClient;
 
 const connect = async () => {
   try {
-    // redisClient = createClient("redis://redis:6379"); //Default port 6379
-    redisClient = createClient({ url: 'redis://redis:6379' })//for docker
+    redisClient = createClient("redis://redis:6379"); //Default port 6379
+    // redisClient = createClient({ url: 'redis://redis:6379' })//for docker
     await redisClient.connect();
     await redisClient.flushAll("ASYNC");
     console.log("Redis connected!!");

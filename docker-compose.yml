@@ -6,13 +6,16 @@ services:
     restart: always
     ports:
       - "8081:8080"
+    depends_on:
+      - redis
+    links: ["redis"] 
     networks:
       - web
   dl:
-    build: ./auth
+    build: ./dl
     restart: always
     ports:
-      - "8081:8080"
+      - "8082:8080"
     networks:
       - web
 

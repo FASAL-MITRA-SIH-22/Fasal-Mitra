@@ -6,6 +6,8 @@ import torchvision.transforms as transforms   # for transforming images into ten
 from torchvision.datasets import ImageFolder  # for working with classes and images
 import torch.nn.functional as F # for functions for calculating loss
 import torch.nn as nn           # for creating  neural networks
+import numpy as np 
+from PIL import Image
 
 # for calculating the accuracy
 def accuracy(outputs, labels):
@@ -77,10 +79,12 @@ class ResNet:
     model = ResNet9(3,38)
     classes = []
     def __init__(self):
-        PATH = './ResNet/plant-disease-model.pth'
+        PATH = f'{os. getcwd()}/app/ResNet/plant-disease-model.pth'
         self.model.load_state_dict(torch.load(PATH,map_location=torch.device('cpu')))
         self.model.eval()
-        self.classes = open(f"./classes.txt","r").read().split(',')
+        self.model.double()
+        self.classes = open(f"{os. getcwd()}/app/classes.txt","r").read().split(',')
+        print(self.classes)
 
     def to_device(self,data, device):
         """Move tensor(s) to chosen device"""
@@ -88,14 +92,33 @@ class ResNet:
             return [to_device(x, device) for x in data]
         return data.to(device, non_blocking=True)
     
-    def predict_image(self):
-        test_dir = "./test"
+    def predict_image_from_path(self):
+        test_dir = f"{os. getcwd()}/test"
         test = ImageFolder(test_dir, transform=transforms.ToTensor())
         # Retrieve the class label
-        img, label = test[8]
-        """Converts image to array and return the predicted class
-            with highest probability"""
-        # Convert to a batch of 1
+        for i in range(25):
+            img, label = test[i]
+            """Converts image to array and return the predicted class
+                with highest probability"""
+            # Convert to a batch of 1
+            xb = self.to_device(img.unsqueeze(0),"cpu")
+            # Get predictions from model
+            yb = self.model(xb)
+            # Pick index with highest probability
+            _, preds  = torch.max(yb, dim=1)
+            # print(img.unsqueeze(0), torch.device("cpu"))
+            print(preds)
+        return self.classes[preds[0].item()]
+
+    def predict_image(self,image):
+        image = np.double(
+            Image.open(image).convert("RGB").resize((256, 256)) # image resizing,
+        )
+        image = image/255.0
+        print(image.dtype)
+
+        img = transforms.ToTensor()(image).double()
+        print(img)
         xb = self.to_device(img.unsqueeze(0),"cpu")
         # Get predictions from model
         yb = self.model(xb)
@@ -104,7 +127,9 @@ class ResNet:
         # print(img.unsqueeze(0), torch.device("cpu"))
         # print(preds)
         return self.classes[preds[0].item()]
+        return
 
 # print(os.listdir('./test'))
-rn = ResNet()
-print("Prediction",rn.predict_image())
+# rn = ResNet()
+# print("Prediction",rn.predict_image_from_path())
+# print(os. getcwd())

@@ -1,4 +1,4 @@
-from app.controllers import blueprint,tfmodels,mongo,jsonify,datetime
+from app.controllers import blueprint,tfmodels,mongo,jsonify,datetime,resnet,request
 from app.schemas import validate_detectionHistory
 from bson.objectid import ObjectId
 
@@ -8,8 +8,8 @@ def hello():
 
 @blueprint.route('/prediction',methods=['POST'])
 def predict():
-    crop_image =request.files['crop_image']
-    crop_name =request.form['crop_name']
+    crop_image =request.files['image']
+    crop_name =request.form['name']
 
     predicted_class, confidence = tfmodels.getPrediction(crop_image,crop_name)
     return jsonify({'predicted_class':predicted_class,'confidence':confidence})
@@ -31,4 +31,24 @@ def test1():
     
     return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(data['message'])}), 400
 
+@blueprint.route('/dl/detection',methods=['POST'])
+def dl_detection():
+    image =request.files['image']
+    detection = resnet.predict_image(image)
+    print(image)
+    return jsonify({'ok': True, 'detection': detection}), 200
+    # except:
+    #     return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(data['message'])}), 400
+
+
+
+    # print(ObjectId("623a3d74960a9f8526395e08"))
+    # data = validate_detectionHistory({"createdAt":str(datetime.now()),"plantId":ObjectId("623a3d74960a9f8526395e08")})
+    # if data['ok']:
+    #     data = data['data']
+    #     print(mongo.db.detectionHistory.find_one())
+    #     print(type(mongo.db.detectionHistory.find_one()['_id']))
+    #     mongo.db.detectionHistory.insert_one(data)
+    #     return jsonify({'ok': True, 'message': 'User created successfully!','detectionHistory':data}), 200
+    
 

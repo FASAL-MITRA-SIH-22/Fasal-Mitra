@@ -27,3 +27,6 @@ class TfModels:
         predicted_class = self.classes[crop_name][np.argmax(predictions[0])]
         confidence = round(100 * (np.max(predictions[0])), 2)
         return predicted_class, confidence
+
+
+

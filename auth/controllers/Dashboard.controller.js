@@ -10,7 +10,7 @@ const getMapData = async (req, res, next) => {
           _id: { city: "$city" },
           numberOfDetection: { $sum: 1 },
           plantIds: { $push: "$plantId" },
-          location: {$first: "$location"},
+          location: { $first: "$location" },
         },
       },
     ]);
@@ -19,7 +19,7 @@ const getMapData = async (req, res, next) => {
 
     res.status(200).json({
       data: getDataPerCity,
-    })
+    });
   } catch (err) {
     next(err);
   }
@@ -30,13 +30,18 @@ const getTotalRequest = async (res, req, next) => {
     const result = await Dashboard.aggregate([
       {
         $group: {
-          _id: 
-        }
-      }
-    ])
+          _id: null,
+          totalRequest: { $sum: 1 },
+        },
+      },
+    ]);
+
+    return res.status(200).json({
+      data: result,
+    });
   } catch (err) {
     next();
   }
-}
+};
 
-module.exports = { getMapData };
+module.exports = { getMapData, getTotalRequest };

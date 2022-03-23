@@ -22,9 +22,36 @@ def test1():
 @blueprint.route('/dl/detection',methods=['POST'])
 def dl_detection():
     try:
-        image =request.files['image']
-        detection = resnet.predict_image(image)
-        return jsonify({'ok': True, 'detection': detection}), 200
+        # uid = request.headers['uid']
+        # city = request.headers['city']
+        # district = request.headers['district']
+        # state = request.headers['state']
+        # lat = request.headers['lat']
+        # lon = request.headers['lon']
+        print(request.headers)
+        return
+
+    #     detectionHistory = {
+    #     "createdAt": str(datetime.now()),
+    #     "ip": "1234",
+    #     "city":"",
+    #     "district":,
+    #     "state":,
+    #     "location": {
+    #         "x":,
+    #         "y":
+    #     },
+    #     "plantId":ObjectId("623a3d74960a9f8526395e08"),
+    #     "diseaseId":ObjectId("623a3d74960a9f8526395e08"),
+    #     "rating":5
+    # },
+
+    #     data = validate_detectionHistory(data)
+
+
+    #     image =request.files['image']
+    #     detection = resnet.predict_image(image)
+    #     return jsonify({'ok': True, 'detection': detection,'data':data}), 200
     except:
         return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(data['message'])}), 400
 

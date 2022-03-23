@@ -88,9 +88,9 @@ const register = async (req, res, next) => {
 
 const viewAccount = async (req, res, next) => {
   try {
-    const userId = await verifyJWT(req.signedCookies.accessToken);
+    const decoded = await verifyJWT(req.signedCookies.accessToken);
 
-    let user = await User.findById(userId);
+    let user = await User.findById(decoded.userId);
 
     if (!user) createHttpError.NotFound("User not registered");
 
@@ -156,26 +156,53 @@ const logout = async (req, res, next) => {
 };
 
 const authorization = async (req, res, next) => {
-  return res.send("hello");
   try {
     const decoded = await verifyJWT(req.signedCookies.accessToken);
 
-    console.log({decoded})
     if (!decoded?.userId) throw createHttpError.Unauthorized();
 
-      console.log(req.ip);
-      const ipData = await ipInfo.getIPInfo(req.ip);
-      console.log({ipData})
+    let ipData = await ipInfo.getIPInfo(req.ip);
+    if (ipData.status === "fail") {
+      ipData = {
+        as: "AS17488 Hathway IP Over Cable Internet",
+        asname: "HATHWAY-NET-AP",
+        city: "Mumbai",
+        continent: "Asia",
+        continentCode: "AS",
+        country: "India",
+        countryCode: "IN",
+        currency: "INR",
+        district: "",
+        hosting: false,
+        isp: "Hathway IP over Cable Internet Access",
+        lat: 19.0748,
+        lon: 72.8856,
+        mobile: false,
+        offset: 19800,
+        org: "",
+        proxy: false,
+        query: "115.98.234.55",
+        region: "MH",
+        regionName: "Maharashtra",
+        status: "success",
+        timezone: "Asia/Kolkata",
+        zip: "400070",
+      };
+    }
 
-      res.setHeader("x-uid", decoded.userId);
+    res.setHeader("x-uid", decoded.userId);
+    res.setHeader("x-city", ipData.city.toLowerCase());
+    res.setHeader("x-district", ipData.district.toLowerCase());
+    res.setHeader("x-state", ipData.regionName.toLowerCase());
+    res.setHeader("x-lat", ipData.lat);
+    res.setHeader("x-lon", ipData.lon);
 
-      res.status(200).json({
-        authorize: true,
-        uid: decoded.userId,
-      });
-  
+    res.status(200).json({
+      authorize: true,
+      uid: decoded.userId,
+    });
   } catch (err) {
-    console.log({err})
+    console.log({ err });
     next(err);
   }
 };

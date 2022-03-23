@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan")
 
 const authRoutes = require("./routes/Auth.route");
+const dashboardRoutes = require("./routes/Dashboard.route");
 
 // database connection
 require("./configs/mongodb.config");
@@ -29,6 +30,7 @@ app.use(
 );
 
 app.use("/api/auth", authRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.get("/api/auth", (req, res) => {
   res.json({ message: "base url" });

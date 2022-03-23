@@ -36,10 +36,10 @@ detectionHistory_schema = {
             "bsonType":"string"
         },
         "rating":{
-            "type":"number"
+            "type":"number",
+            "default":5
         }
     },
-    # "required": ["email", "password"],
     "additionalProperties": False
 }
 

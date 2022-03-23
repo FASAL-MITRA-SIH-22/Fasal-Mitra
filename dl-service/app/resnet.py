@@ -84,7 +84,6 @@ class ResNet:
         self.model.eval()
         self.model.double()
         self.classes = open(f"{os. getcwd()}/app/classes.txt","r").read().split(',')
-        print(self.classes)
 
     def to_device(self,data, device):
         """Move tensor(s) to chosen device"""
@@ -106,8 +105,6 @@ class ResNet:
             yb = self.model(xb)
             # Pick index with highest probability
             _, preds  = torch.max(yb, dim=1)
-            # print(img.unsqueeze(0), torch.device("cpu"))
-            print(preds)
         return self.classes[preds[0].item()]
 
     def predict_image(self,image):
@@ -115,20 +112,15 @@ class ResNet:
             Image.open(image).convert("RGB").resize((256, 256)) # image resizing,
         )
         image = image/255.0
-        print(image.dtype)
 
         img = transforms.ToTensor()(image).double()
-        print(img)
         xb = self.to_device(img.unsqueeze(0),"cpu")
         # Get predictions from model
         yb = self.model(xb)
         # Pick index with highest probability
         _, preds  = torch.max(yb, dim=1)
-        # print(img.unsqueeze(0), torch.device("cpu"))
-        # print(preds)
-        return self.classes[preds[0].item()]
-        return
 
+        return self.classes[preds[0].item()]
 # print(os.listdir('./test'))
 # rn = ResNet()
 # print("Prediction",rn.predict_image_from_path())

@@ -35,8 +35,9 @@ def dl_detection():
         detection_split = detection.split('___')
         plant,disease = detection_split[0],detection_split[1]
 
-        disease_info = mongo.db.disease.find_one({"name":disease})
-        plant_info = mongo.db.disease.find_one({"commonName":plant})
+        disease_info = mongo.db.disease.find_one({"name": detection})
+        plant_info = mongo.db.plants.find_one({"commonName":plant})
+        print(disease_info,plant_info,plant)
 
         detectionHistory = {
         "createdAt": str(datetime.now()),
@@ -55,10 +56,11 @@ def dl_detection():
         }
 
         validated_detectionHistory = validate_detectionHistory(detectionHistory)
+        done = mongo.db.detectionHistory.insert_one(validated_detectionHistory )
 
-        return jsonify({'ok': True, 'detection': detection,'validated_detectionHistory ':validated_detectionHistory}), 200
-    except ex as Exception:
-        return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format('An error occured')}), 400
+        return jsonify({'ok': True, 'detection': detection,'validated_detectionHistory ':validated_detectionHistory},"plant":plant_info,"disease":"No disease found" if disease_info==None else disease_info}), 200
+    except Exception as ex:
+        return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(ex)}), 400
 
     # print(ObjectId("623a3d74960a9f8526395e08"))
     # data = validate_detectionHistory({"createdAt":str(datetime.now()),"plantId":ObjectId("623a3d74960a9f8526395e08")})

@@ -58,7 +58,7 @@ def dl_detection():
         validated_detectionHistory = validate_detectionHistory(detectionHistory)
         done = mongo.db.detectionHistory.insert_one(validated_detectionHistory )
 
-        return jsonify({'ok': True, 'detection': detection,'validated_detectionHistory ':validated_detectionHistory},"plant":plant_info,"disease":"No disease found" if disease_info==None else disease_info}), 200
+        return jsonify({'ok': True, 'detection': detection,'validated_detectionHistory ':validated_detectionHistory,"plant":plant_info,"disease":"No disease found" if disease_info==None else disease_info}), 200
     except Exception as ex:
         return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(ex)}), 400
 

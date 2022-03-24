@@ -17,9 +17,9 @@ disease_schema = {
         "trigger": {
             "type": "string",
         },
-        "pathogen": {
-            "type": "string",
-        },
+        # "pathogen": {
+        #     "type": "string",
+        # },
         "organic": {
             "type": "string",
         },

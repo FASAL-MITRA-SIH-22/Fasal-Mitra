@@ -2,11 +2,11 @@ from app.controllers import blueprint,mongo,jsonify,datetime,resnet,request
 from app.schemas import validate_detectionHistory
 from bson.objectid import ObjectId
 
-@blueprint.route('/',methods=["GET"])
+@blueprint.route('/api/dl',methods=["GET"])
 def hello():
     return 'Hello, World!'
 
-@blueprint.route('/prediction/test',methods=['GET'])
+@blueprint.route('/api/dl/prediction/test',methods=['GET'])
 def test1():
     print(ObjectId("623a3d74960a9f8526395e08"))
     data = validate_detectionHistory({"createdAt":str(datetime.now()),"plantId":ObjectId("623a3d74960a9f8526395e08")})
@@ -19,39 +19,40 @@ def test1():
     
     return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(data['message'])}), 400
 
-@blueprint.route('/dl/detection',methods=['POST'])
+@blueprint.route('/api/dl/detection',methods=['POST'])
 def dl_detection():
     try:
-        # uid = request.headers['uid']
-        # city = request.headers['city']
-        # district = request.headers['district']
-        # state = request.headers['state']
-        # lat = request.headers['lat']
-        # lon = request.headers['lon']
-        print(request.headers)
-        return
+        uid = request.headers['uid']
+        city = request.headers['city']
+        ip = request.headers['ip']
+        district = request.headers['district']
+        state = request.headers['state']
+        lat = request.form['lat'] if(request.form['lat']) else request.headers['lat']
 
-    #     detectionHistory = {
-    #     "createdAt": str(datetime.now()),
-    #     "ip": "1234",
-    #     "city":"",
-    #     "district":,
-    #     "state":,
-    #     "location": {
-    #         "x":,
-    #         "y":
-    #     },
-    #     "plantId":ObjectId("623a3d74960a9f8526395e08"),
-    #     "diseaseId":ObjectId("623a3d74960a9f8526395e08"),
-    #     "rating":5
-    # },
+        image =request.files['image']
+        detection = resnet.predict_image(image)
 
-    #     data = validate_detectionHistory(data)
+        lat = request.form['lon'] if(request.form['lon']) else request.headers['lon']
 
+        detectionHistory = {
+        "createdAt": str(datetime.now()),
+        "ip": ip,
+        "city":city,
+        "district":district,
+        "state":state,
+        "location": {
+            "lat":lat,
+            "lon":lon
+        },
+        "detected_class":detection
+        "plantId":ObjectId("623a3d74960a9f8526395e08"),
+        "diseaseId":ObjectId("623a3d74960a9f8526395e08"),
+        "rating":5
+        }
 
-    #     image =request.files['image']
-    #     detection = resnet.predict_image(image)
-    #     return jsonify({'ok': True, 'detection': detection,'data':data}), 200
+        data = validate_detectionHistory(data)
+
+        return jsonify({'ok': True, 'detection': detection,'data':data}), 200
     except:
         return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(data['message'])}), 400
 

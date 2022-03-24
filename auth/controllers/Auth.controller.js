@@ -190,12 +190,12 @@ const authorization = async (req, res, next) => {
       };
     }
 
-    res.setHeader("x-uid", decoded.userId);
-    res.setHeader("x-city", ipData.city.toLowerCase());
-    res.setHeader("x-district", ipData.district.toLowerCase());
-    res.setHeader("x-state", ipData.regionName.toLowerCase());
-    res.setHeader("x-lat", ipData.lat);
-    res.setHeader("x-lon", ipData.lon);
+    res.setHeader("uid", decoded.userId);
+    res.setHeader("city", ipData.city.toLowerCase());
+    res.setHeader("district", ipData.district.toLowerCase());
+    res.setHeader("state", ipData.regionName.toLowerCase());
+    res.setHeader("lat", ipData.lat);
+    res.setHeader("lon", ipData.lon);
 
     res.status(200).json({
       authorize: true,

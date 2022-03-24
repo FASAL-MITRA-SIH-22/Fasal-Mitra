@@ -31,7 +31,7 @@ detectionHistory_schema = {
         },
         "detected_class":{
             "type": "string",
-        }
+        },
         "plantId":{
             "bsonType":"string"
         },

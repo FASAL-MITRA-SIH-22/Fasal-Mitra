@@ -80,7 +80,7 @@ with open("./input.txt") as f:
 	lines = f.readlines()
 
 lines = [x.replace("\n", "") for x in lines]
-urls = get_images_from_google(wd, 1, 10, lines[1])
+urls = get_images_from_google(wd, 1, 50, lines[1])
 
 download_images(urls, lines[3], lines[2])
 

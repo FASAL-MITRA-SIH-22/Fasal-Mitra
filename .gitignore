@@ -3,3 +3,4 @@ web-scraping/*
 !web-scraping/diseases.py
 !web-scraping/diseases.csv
 !web-scraping/plantData.csv
+!web-scraping/input.txt

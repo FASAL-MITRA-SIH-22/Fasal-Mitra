@@ -6,6 +6,8 @@ const DiseaseSchema = new mongoose.Schema({
   symptoms: String,
   trigger: String,
   pathogen: String,
+  organic: String,
+  chemical: String,
 });
 
 const Disease = mongoose.model("disease", DiseaseSchema);

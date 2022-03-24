@@ -5,25 +5,32 @@ from jsonschema.exceptions import SchemaError
 disease_schema = {
     "type": "object",
     "properties": {
-       "name": {
+        "name": {
             "type": "string",
         },
         "thumbnail": {
             "type": "string",
         },
-        "symptoms":{
+        "symptoms": {
             "type": "string",
         },
-        "trigger":{
+        "trigger": {
             "type": "string",
         },
-        "pathogen":{
+        "pathogen": {
+            "type": "string",
+        },
+        "organic": {
+            "type": "string",
+        },
+        "chemical": {
             "type": "string",
         },
     },
     # "required": ["email", "password"],
     "additionalProperties": False
 }
+
 
 def validate_disease(data):
     try:

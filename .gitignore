@@ -4,3 +4,6 @@ archive
 */private.pem
 */public.pem
 */.env
+training
+flaskbvenv
+flasktestenv

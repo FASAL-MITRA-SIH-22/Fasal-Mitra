@@ -29,6 +29,9 @@ detectionHistory_schema = {
                  "type": "number",
             }
         },
+        "detected_class":{
+            "type": "string",
+        }
         "plantId":{
             "bsonType":"string"
         },

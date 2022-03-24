@@ -18,11 +18,12 @@ services:
     build: ./dl
     restart: always
     ports:
-      - "8082:8080"
+      - "8082:5000"
     environment:
       - MONGO_URI=mongodb+srv://fasalmitra:fasalmitra2022@cluster0.k8bxu.mongodb.net/mainDB?retryWrites=true&w=majority
     networks:
       - web
+      - mainnet
 
   nginx:
     image: nginx
@@ -33,6 +34,7 @@ services:
       - ./Nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
       - web
+      - mainnet
 
   redis:
     image: redis
@@ -45,3 +47,4 @@ services:
 networks:
   web:
     driver: bridge
+  mainnet:

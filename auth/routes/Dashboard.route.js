@@ -1,7 +1,7 @@
 const { Router } = require("express");
-const { getMapData } = require("../controllers/Dashboard.controller");
+const { getDashboardData } = require("../controllers/Dashboard.controller");
 const router = Router();
 
-router.get("/mapData", getMapData);
+router.get("/dashboard", getDashboardData);
 
 module.exports = router;

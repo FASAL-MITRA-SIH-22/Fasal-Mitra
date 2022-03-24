@@ -1,24 +1,31 @@
 const createHttpError = require("http-errors");
 
 const Dashboard = require("../models/Dashboard.model");
+const Plant = require("../models/Plant.model");
 
-const getMapData = async (req, res, next) => {
+const getDashboardData = async (req, res, next) => {
   try {
-    const result = await Dashboard.aggregate([
+    const mapData = Dashboard.aggregate([
       {
         $group: {
-          _id: { city: "$city" },
-          numberOfDetection: { $sum: 1 },
-          plantIds: { $push: "$plantId" },
-          location: { $first: "$location" },
+          id: { city: "$state" },
+          numberOfValue: { $sum: 1 },
         },
       },
     ]);
 
-    const getDataPerCity = await Dashboard.populate(result);
+    const plantData = Plant.aggregate([
+      {
+        $group: {id: {plant: "$commonName"}},
+        numberOfValue: { $sum: 1 },
+      }
+    ])
+
+    const result = await Promise.all([mapData, plantData])
 
     res.status(200).json({
-      data: getDataPerCity,
+      mapData: result[0],
+      plantData: result[1],
     });
   } catch (err) {
     next(err);
@@ -44,4 +51,4 @@ const getTotalRequest = async (res, req, next) => {
   }
 };
 
-module.exports = { getMapData, getTotalRequest };
+module.exports = { getDashboardData, getTotalRequest };

@@ -1,6 +1,6 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+# from selenium import webdriver
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.common.keys import Keys
 import os
 import time
 import requests
@@ -8,11 +8,11 @@ from bs4 import BeautifulSoup
 from pprint import pprint
 import csv
 
-wd = webdriver.Firefox()
-wd.get("https://plantix.net/en/library/plant-diseases")
+# wd = webdriver.Firefox()
+# wd.get("https://plantix.net/en/library/plant-diseases")
 time.sleep(1)
-input_field = wd.find_elements(By.CSS_SELECTOR, "input.ng-valid")
-search_field = input_field[0]
+# input_field = wd.find_elements(By.CSS_SELECTOR, "input.ng-valid")
+# search_field = input_field[0]
 with open("./diseases.csv") as f:
     info = f.read()
 info = info.split(",")
@@ -41,6 +41,8 @@ final_info = [['Apple___Apple_scab'], ['Apple___Black_rot'], ['Apple___Cedar_app
 for i, url in enumerate(urls):
     r = requests.get(url)
     soup = BeautifulSoup(r.content, 'html.parser')
+    image_src = soup.find_all('img')[1]['src']
+    final_info[i] += [image_src]
     solns = soup.find_all('div', {"class": "collapsible"})
     for soln in solns:
         try:

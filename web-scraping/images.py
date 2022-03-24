@@ -6,7 +6,8 @@ from PIL import Image
 import time
 import os
 
-PATH = r"C:/chromedriver_win32/chromedriver.exe"
+# please set path to chrome or firefox
+# PATH = r"C:/chromedriver_win32/chromedriver.exe"
 
 
 def get_images_from_google(wd, delay, max_images, url):
@@ -73,7 +74,7 @@ def download_images(urls, vegetable,folder_name):
 	for i, url in enumerate(urls):
 		download_image(f"{vegetable}/{folder_name}/", url, str(i) + ".jpg")
 
-wd = webdriver.Chrome(executable_path = PATH)
+wd = webdriver.Firefox()
 
 with open("./input.txt") as f:
 	lines = f.readlines()

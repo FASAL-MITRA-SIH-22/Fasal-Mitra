@@ -21,6 +21,6 @@ const DashoardSchema = new mongoose.Schema({
   state: String,
 });
 
-const Dashboard = mongoose.model("dashboard", DashoardSchema);
+const Dashboard = mongoose.model("detectionHistory", DashoardSchema);
 
 module.exports = Dashboard;

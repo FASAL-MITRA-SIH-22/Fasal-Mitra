@@ -8,26 +8,60 @@ const getDashboardData = async (req, res, next) => {
     const mapData = Dashboard.aggregate([
       {
         $group: {
-          id: { city: "$state" },
+          _id: "$state",
           numberOfValue: { $sum: 1 },
         },
       },
     ]);
 
-    const plantData = Plant.aggregate([
+    const dashboardPlantData = Dashboard.aggregate([
       {
-        $group: {id: {plant: "$commonName"}},
-        numberOfValue: { $sum: 1 },
-      }
-    ])
+        $group: { _id: "$plantId", numberOfValue: { $sum: 1 } },
+      },
+    ]);
 
-    const result = await Promise.all([mapData, plantData])
+    const dashboardDiseaseData = Dashboard.aggregate([
+      {
+        $group: { _id: "$diseaseId", numberOfValue: { $sum: 1 } },
+      },
+    ]);
+
+    const populateData = await Promise.all([
+      dashboardPlantData,
+      dashboardDiseaseData,
+    ]);
+
+    const plantData = Dashboard.populate(populateData[0], {
+      path: "plant",
+      select: "commonName",
+    });
+
+    const diseaseData = Dashboard.populate(populateData[1], {
+      path: "disease",
+      select: "name",
+    });
+
+    const result = await Promise.all([mapData, plantData, diseaseData]);
 
     res.status(200).json({
       mapData: result[0],
-      plantData: result[1],
+      plantData: result[1].reduce(
+        (acc, item) => ({
+          legends: [...acc.legends, item._id],
+          data: [...acc.data, item.numberOfValue],
+        }),
+        {}
+      ),
+      diseaseData: result[2].reduce(
+        (acc, item) => ({
+          legends: [...acc.legends, item._id],
+          data: [...acc.data, item.numberOfValue],
+        }),
+        {}
+      ),
     });
   } catch (err) {
+    console.log({ err });
     next(err);
   }
 };

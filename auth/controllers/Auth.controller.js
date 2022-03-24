@@ -191,6 +191,7 @@ const authorization = async (req, res, next) => {
     }
 
     res.setHeader("uid", decoded.userId);
+    res.setHeader("ip", req.ip);
     res.setHeader("city", ipData.city.toLowerCase());
     res.setHeader("district", ipData.district.toLowerCase());
     res.setHeader("state", ipData.region);
@@ -203,7 +204,7 @@ const authorization = async (req, res, next) => {
     });
   } catch (err) {
     console.log({ err });
-    next(err);
+    next(createHttpError.Unauthorized());
   }
 };
 

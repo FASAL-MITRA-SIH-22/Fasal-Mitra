@@ -1,26 +1,67 @@
 const createHttpError = require("http-errors");
 
 const Dashboard = require("../models/Dashboard.model");
+const Plant = require("../models/Plant.model");
 
-const getMapData = async (req, res, next) => {
+const getDashboardData = async (req, res, next) => {
   try {
-    const result = await Dashboard.aggregate([
+    const mapData = Dashboard.aggregate([
       {
         $group: {
-          _id: { city: "$city" },
-          numberOfDetection: { $sum: 1 },
-          plantIds: { $push: "$plantId" },
-          location: { $first: "$location" },
+          _id: "$state",
+          numberOfValue: { $sum: 1 },
         },
       },
     ]);
 
-    const getDataPerCity = await Dashboard.populate(result);
+    const dashboardPlantData = Dashboard.aggregate([
+      {
+        $group: { _id: "$plantId", numberOfValue: { $sum: 1 } },
+      },
+    ]);
+
+    const dashboardDiseaseData = Dashboard.aggregate([
+      {
+        $group: { _id: "$diseaseId", numberOfValue: { $sum: 1 } },
+      },
+    ]);
+
+    const populateData = await Promise.all([
+      dashboardPlantData,
+      dashboardDiseaseData,
+    ]);
+
+    const plantData = Dashboard.populate(populateData[0], {
+      path: "plant",
+      select: "commonName",
+    });
+
+    const diseaseData = Dashboard.populate(populateData[1], {
+      path: "disease",
+      select: "name",
+    });
+
+    const result = await Promise.all([mapData, plantData, diseaseData]);
 
     res.status(200).json({
-      data: getDataPerCity,
+      mapData: result[0],
+      plantData: result[1].reduce(
+        (acc, item) => ({
+          legends: [...acc.legends, item._id],
+          data: [...acc.data, item.numberOfValue],
+        }),
+        {}
+      ),
+      diseaseData: result[2].reduce(
+        (acc, item) => ({
+          legends: [...acc.legends, item._id],
+          data: [...acc.data, item.numberOfValue],
+        }),
+        {}
+      ),
     });
   } catch (err) {
+    console.log({ err });
     next(err);
   }
 };
@@ -44,4 +85,4 @@ const getTotalRequest = async (res, req, next) => {
   }
 };
 
-module.exports = { getMapData, getTotalRequest };
+module.exports = { getDashboardData, getTotalRequest };

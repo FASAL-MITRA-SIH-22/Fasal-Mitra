@@ -32,7 +32,11 @@ def dl_detection():
 
         image =request.files['image']
         detection = resnet.predict_image(image)
-        print(detection)
+        detection_split = detection.split('___')
+        plant,disease = detection_split[0],detection_split[1]
+
+        disease_info = mongo.db.disease.find_one({"name":disease})
+        plant_info = mongo.db.disease.find_one({"commonName":plant})
 
         detectionHistory = {
         "createdAt": str(datetime.now()),

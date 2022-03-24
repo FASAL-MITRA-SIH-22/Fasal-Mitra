@@ -121,7 +121,3 @@ class ResNet:
         _, preds  = torch.max(yb, dim=1)
 
         return self.classes[preds[0].item()]
-# print(os.listdir('./test'))
-# rn = ResNet()
-# print("Prediction",rn.predict_image_from_path())
-# print(os. getcwd())

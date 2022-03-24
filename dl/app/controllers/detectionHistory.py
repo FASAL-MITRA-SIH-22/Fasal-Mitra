@@ -27,12 +27,12 @@ def dl_detection():
         ip = request.headers['ip']
         district = request.headers['district']
         state = request.headers['state']
-        lat = request.form['lat'] if(request.form['lat']) else request.headers['lat']
+        lat = request.form['lat'] if("lat" in request.form) else request.headers['lat']
+        lon = request.form['lon'] if("lon" in request.form) else request.headers['lon']
 
         image =request.files['image']
         detection = resnet.predict_image(image)
-
-        lat = request.form['lon'] if(request.form['lon']) else request.headers['lon']
+        print(detection)
 
         detectionHistory = {
         "createdAt": str(datetime.now()),
@@ -44,19 +44,17 @@ def dl_detection():
             "lat":lat,
             "lon":lon
         },
-        "detected_class":detection
+        "detected_class":detection,
         "plantId":ObjectId("623a3d74960a9f8526395e08"),
         "diseaseId":ObjectId("623a3d74960a9f8526395e08"),
         "rating":5
         }
 
-        data = validate_detectionHistory(data)
+        validated_detectionHistory = validate_detectionHistory(detectionHistory)
 
-        return jsonify({'ok': True, 'detection': detection,'data':data}), 200
-    except:
-        return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(data['message'])}), 400
-
-
+        return jsonify({'ok': True, 'detection': detection,'validated_detectionHistory ':validated_detectionHistory}), 200
+    except ex as Exception:
+        return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format('An error occured')}), 400
 
     # print(ObjectId("623a3d74960a9f8526395e08"))
     # data = validate_detectionHistory({"createdAt":str(datetime.now()),"plantId":ObjectId("623a3d74960a9f8526395e08")})

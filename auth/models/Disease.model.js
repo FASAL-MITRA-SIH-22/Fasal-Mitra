@@ -8,6 +8,8 @@ const DiseaseSchema = new mongoose.Schema({
   // pathogen: String,
   organic: String,
   chemical: String,
+}, {
+  collection: "disease"
 });
 
 const Disease = mongoose.model("disease", DiseaseSchema);

@@ -29,8 +29,8 @@ app.use(
   })
 );
 
+app.use("/api/auth/dashboard", dashboardRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/dashboard", dashboardRoutes);
 
 app.get("/api/auth", (req, res) => {
   res.json({ message: "base url" });

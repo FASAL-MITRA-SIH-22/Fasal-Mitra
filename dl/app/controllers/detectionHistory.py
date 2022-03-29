@@ -55,8 +55,10 @@ def dl_detection():
                 "lon": lon
             },
             "detected_class": detection,
-            "plantId": ObjectId("623a3d74960a9f8526395e08"),
-            "diseaseId": ObjectId("623a3d74960a9f8526395e08"),
+            "plantId": plant_info._id,
+            # "plantId": ObjectId("623a3d74960a9f8526395e08"),
+            "diseaseId": disease_info._id,
+            # "diseaseId": ObjectId("623a3d74960a9f8526395e08"),
             "rating": 5
         }
 

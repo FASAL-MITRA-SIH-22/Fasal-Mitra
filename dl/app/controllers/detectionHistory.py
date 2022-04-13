@@ -25,13 +25,9 @@ def test1():
 
     return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(data['message'])}), 400
 
-<<<<<<< HEAD
-@blueprint.route('/',methods=['POST'])
-@cross_origin(supports_credentials=True)
-=======
 
 @blueprint.route('/api/dl/detection', methods=['POST'])
->>>>>>> 38f73fd20e77218f11b2f95f0103540ef248ed38
+@cross_origin(supports_credentials=True)
 def dl_detection():
     # try:
     uid = '124352414'

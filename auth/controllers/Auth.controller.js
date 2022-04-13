@@ -101,7 +101,7 @@ const viewAccount = async (req, res, next) => {
 
     res.status(200).json({ user });
   } catch (err) {
-    next(err);
+    next(createHttpError.Unauthorized());
   }
 };
 

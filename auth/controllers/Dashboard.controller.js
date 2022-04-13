@@ -1,6 +1,7 @@
 const createHttpError = require("http-errors");
 
 const Dashboard = require("../models/Dashboard.model");
+const Disease = require("../models/Disease.model");
 const Plant = require("../models/Plant.model");
 
 const getDashboardData = async (req, res, next) => {
@@ -22,7 +23,10 @@ const getDashboardData = async (req, res, next) => {
 
     const dashboardDiseaseData = Dashboard.aggregate([
       {
-        $group: { _id: "$diseaseId", numberOfValue: { $sum: 1 } },
+        $group: {
+          _id: "$diseaseId",
+          numberOfValue: { $sum: 1 },
+        },
       },
     ]);
 
@@ -31,13 +35,12 @@ const getDashboardData = async (req, res, next) => {
       dashboardDiseaseData,
     ]);
 
-    const plantData = Dashboard.populate(populateData[0], {
-      path: "plant",
-      select: "commonName",
-    });
+    console.log({pant: populateData[0]})
 
-    const diseaseData = Dashboard.populate(populateData[1], {
-      path: "disease",
+    const plantData = Plant.populate(populateData[0], {path: "_id"});
+
+    const diseaseData = Disease.populate(populateData[1], {
+      path: "_id",
       select: "name",
     });
 
@@ -50,14 +53,20 @@ const getDashboardData = async (req, res, next) => {
           legends: [...acc.legends, item._id],
           data: [...acc.data, item.numberOfValue],
         }),
-        {}
+        {
+          legends: [],
+          data: [],
+        }
       ),
       diseaseData: result[2].reduce(
         (acc, item) => ({
           legends: [...acc.legends, item._id],
           data: [...acc.data, item.numberOfValue],
         }),
-        {}
+        {
+          legends: [],
+          data: [],
+        }
       ),
     });
   } catch (err) {

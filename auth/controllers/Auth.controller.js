@@ -1,6 +1,7 @@
 const User = require("../models/User.model");
 const createHttpError = require("http-errors");
 const ipInfo = require("ip-info-finder");
+const bcrypt = require("bcrypt");
 
 const { signJWT } = require("../helpers/jwtSign.helper");
 const { verifyJWT } = require("../helpers/jwtVerify.helper");
@@ -9,7 +10,6 @@ const {
   registerSchema,
   loginSchema,
 } = require("../validations/Auth.validation");
-const bcrypt = require("bcrypt");
 
 const maxAge = process.env.EXPIRATION_TIME;
 
@@ -161,7 +161,9 @@ const authorization = async (req, res, next) => {
 
     if (!decoded?.userId) throw createHttpError.Unauthorized();
 
-    let ipData = await ipInfo.getIPInfo(req.ip);
+    // let ipData = await ipInfo.getIPInfo(req.ip);
+    let ipData
+    ipData = { status: "fail" }
     if (ipData.status === "fail") {
       ipData = {
         as: "AS17488 Hathway IP Over Cable Internet",

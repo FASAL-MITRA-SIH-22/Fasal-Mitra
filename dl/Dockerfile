@@ -2,6 +2,6 @@ FROM python:3.8.10
 RUN mkdir /mainweb
 COPY . /mainweb
 WORKDIR /mainweb
-RUN pip install -r requirements1.txt
+RUN pip install -r requirements.txt
 EXPOSE 5000
 CMD ["python3","/mainweb/run.py"]

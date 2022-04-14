@@ -20,6 +20,7 @@ services:
     ports:
       - "8082:5000"
     environment:
+      - PYTHONUNBUFFERED=1
       - MONGO_URI=mongodb+srv://fasalmitra:fasalmitra2022@cluster0.k8bxu.mongodb.net/mainDB?retryWrites=true&w=majority
     networks:
       - web

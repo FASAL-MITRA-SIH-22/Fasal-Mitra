@@ -108,6 +108,7 @@ class ResNet:
         return self.classes[preds[0].item()]
 
     def predict_image(self,image):
+        print(image)
         image = np.double(
             Image.open(image).convert("RGB").resize((256, 256)) # image resizing,
         )

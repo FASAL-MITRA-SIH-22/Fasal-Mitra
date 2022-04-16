@@ -35,9 +35,12 @@ const getDashboardData = async (req, res, next) => {
       dashboardDiseaseData,
     ]);
 
-    console.log({pant: populateData[0]})
+    console.log({ pant: populateData[0] });
 
-    const plantData = Plant.populate(populateData[0], {path: "_id"});
+    const plantData = Plant.populate(populateData[0], {
+      path: "_id",
+      select: "commonName",
+    });
 
     const diseaseData = Disease.populate(populateData[1], {
       path: "_id",

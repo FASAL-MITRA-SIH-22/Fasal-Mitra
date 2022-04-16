@@ -52,7 +52,9 @@ const register = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     result["password"] = await bcrypt.hash(result.password, salt);
 
-    const user = new User(result);
+    const avatar = `https://ui-avatars.com/api/?background=random&name=${result.firstName}%20${result.lastName}&size=128&format=svg`;
+
+    const user = new User({...result, avatar});
     let savedUser = await user.save();
 
     const accessToken = await signJWT({ userId: savedUser._id });

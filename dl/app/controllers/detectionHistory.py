@@ -1,7 +1,7 @@
 from app.controllers import blueprint, mongo, jsonify, datetime, resnet, request
 from app.schemas import validate_detectionHistory
 from bson.objectid import ObjectId
-import  flask
+import flask
 from flask_cors import CORS, cross_origin
 
 
@@ -29,54 +29,52 @@ def test1():
 @blueprint.route('/api/dl/detection', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def dl_detection():
-    # try:
-    uid = '124352414'
-    city = 'Mumbai'
-    ip = '13143536'
-    district = 'Mumbai City'
-    state = 'Maharashtra'
-    lat = 11.4652
-    lon = 242.24
+    try:
+        uid = '124352414'
+        city = 'Mumbai'
+        ip = '13143536'
+        district = 'Mumbai City'
+        state = 'MH'
+        lat = 11.4652
+        lon = 242.24
 
-    print(request.headers)
+        # print(request.headers)
 
-    image =request.files['image']
-    detection = resnet.predict_image(image)
-    detection_split = detection.split('___')
-    plant,disease = detection_split[0],detection_split[1]
+        image = request.files['image']
+        detection = resnet.predict_image(image)
+        detection_split = detection.split('___')
+        plant, disease = detection_split[0], detection_split[1]
 
-    disease_info = mongo.db.disease.find_one({"name": detection})
-    plant_info = mongo.db.plants.find_one({"commonName":plant})
-    print(disease_info,plant_info,plant)
+        disease_info = mongo.db.disease.find_one({"name": detection})
+        plant_info = mongo.db.plants.find_one({"commonName": plant})
+        # print(disease_info, plant_info, plant)
 
-    detectionHistory = {
-    "createdAt": str(datetime.now()),
-    "ip": ip,
-    "city":city,
-    "district":district,
-    "state":state,
-    "location": {
-        "lat":lat,
-        "lon":lon
-    },
-    "detected_class":detection,
-    "plantId":plant_info['_id'],
-    "diseaseId":disease_info['_id'],
-    "rating":5
-    }
+        detectionHistory = {
+            "createdAt": str(datetime.now()),
+            "ip": ip,
+            "city": city,
+            "district": district,
+            "state": state,
+            "location": {
+                "lat": lat,
+                "lon": lon
+            },
+            "detected_class": detection,
+            "plantId": plant_info['_id'],
+            "diseaseId": disease_info['_id'],
+            "rating": 5
+        }
 
-    validated_detectionHistory = validate_detectionHistory(detectionHistory)
-    done = mongo.db.detectionHistory.insert_one(validated_detectionHistory['data'])
-    # Response.headers.add('Access-Control-Allow-Headers',
-    #         "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-    # Response.headers.add('Access-Control-Allow-Methods',
-    #         'GET, POST, OPTIONS, PUT, PATCH, DELETE')
-    response = flask.jsonify({'ok': True, 'detection': detection,'validated_detectionHistory ':validated_detectionHistory,"plant":plant_info,"disease":"No disease found" if disease_info==None else disease_info})
-    # response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
-    return response
+        validated_detectionHistory = validate_detectionHistory(detectionHistory)
+        done = mongo.db.detectionHistory.insert_one(validated_detectionHistory['data'])
+        response = flask.jsonify({'ok': True, 'detection': detection,
+                                'validated_detectionHistory ': validated_detectionHistory, "plant": plant_info,
+                                "disease": "No disease found" if disease_info == None else disease_info})
+        # response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+        return response
     #     return jsonify({'ok': True, 'detection': detection,'validated_detectionHistory ':validated_detectionHistory,"plant":plant_info,"disease":"No disease found" if disease_info==None else disease_info}), 200
-    # except Exception as ex:
-    #     return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(ex)}), 400
+    except Exception as ex:
+        return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(ex)}), 500
 
     # print(ObjectId("623a3d74960a9f8526395e08"))
     # data = validate_detectionHistory({"createdAt":str(datetime.now()),"plantId":ObjectId("623a3d74960a9f8526395e08")})

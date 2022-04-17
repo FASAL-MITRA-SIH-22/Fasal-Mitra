@@ -43,7 +43,8 @@ const register = async (req, res, next) => {
           `${result.phone} is already been registered`
         );
 
-      if (existingUser.email === result.email)
+      if (result.email && existingUser.email === result.email)
+
         throw createHttpError.Conflict(
           `${result.email} is already been registered`
         );
@@ -71,7 +72,7 @@ const register = async (req, res, next) => {
       .status(201)
       .json({
         message: "Registered successfully",
-        savedUser,
+        user: savedUser,
       });
   } catch (err) {
     if (err.isJoi === true) {

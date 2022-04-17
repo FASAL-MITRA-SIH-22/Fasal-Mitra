@@ -42,13 +42,11 @@ def dl_detection():
 
         image = request.files['image']
         detection = resnet.predict_image(image)
+        print( detection)
         detection_split = detection.split('___')
         plant, disease = detection_split[0], detection_split[1]
-
         disease_info = mongo.db.disease.find_one({"name": detection})
         plant_info = mongo.db.plants.find_one({"commonName": plant})
-        # print(disease_info, plant_info, plant)
-
         detectionHistory = {
             "createdAt": str(datetime.now()),
             "ip": ip,
@@ -61,7 +59,7 @@ def dl_detection():
             },
             "detected_class": detection,
             "plantId": plant_info['_id'],
-            "diseaseId": disease_info['_id'],
+            "diseaseId":ObjectId('507f191e810c19729de860ea') if disease_info == None  else disease_info['_id'],
             "rating": 5
         }
 
@@ -74,7 +72,7 @@ def dl_detection():
         return response
     #     return jsonify({'ok': True, 'detection': detection,'validated_detectionHistory ':validated_detectionHistory,"plant":plant_info,"disease":"No disease found" if disease_info==None else disease_info}), 200
     except Exception as ex:
-        return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(ex)}), 500
+        return flask.jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(ex)}), 500
 
     # print(ObjectId("623a3d74960a9f8526395e08"))
     # data = validate_detectionHistory({"createdAt":str(datetime.now()),"plantId":ObjectId("623a3d74960a9f8526395e08")})

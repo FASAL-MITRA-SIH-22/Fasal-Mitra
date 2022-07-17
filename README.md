@@ -56,7 +56,7 @@ The system architecture for the application is as followed:
 
 The activity diagram for the application is as followed:
 
-<a href="https://github.com/FASAL-MITRA-SIH-22/Fasal-mitra-frontend"><img width="auto" src="./AboutProject/ActivityDiagram.svg"  alt="Activity Diagram"/></a></a>
+<a href="https://github.com/FASAL-MITRA-SIH-22/Fasal-mitra-frontend"><img width="auto" src="https://github.com/FASAL-MITRA-SIH-22/Fasal-Mitra/blob/frontend/AboutProject/ActivityDiagram.svg"  alt="Activity Diagram"/></a></a>
 
 ## 1.5 Tech-Stack Used
 

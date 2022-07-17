@@ -7,4 +7,6 @@
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#-table-of-contents)
 
-This branch contains most of the backend of the project. 
+This branch contains most of the backend of the project. As this application follows a microservice architecture, the different mkcroservices are created in different folders and nginx microservice acts as the API gateway. The authentication service is build by using Express library and Node, while the dl service is build by using flask.
+
+

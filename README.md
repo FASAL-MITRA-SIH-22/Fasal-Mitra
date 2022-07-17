@@ -9,4 +9,6 @@
 
 This branch contains most of the backend of the project. As this application follows a microservice architecture, the different mkcroservices are created in different folders and nginx microservice acts as the API gateway. The authentication service is build by using Express library and Node, while the dl service is build by using flask.
 
+The system architecture for the application is as followed:
 
+<a href="https://github.com/FASAL-MITRA-SIH-22/Fasal-mitra-frontend"><img width="auto" src="./AboutProject/ArchitectureDiagram.svg"  alt="System Architecture"/></a></a>

@@ -1,11 +1,14 @@
-# Fasal-Mitra
-An automated plant disease detection app
-* This app will help farmers to detect the diseases and how can they overcome it.  ​
+<h1 align="center">Fasal-Mitra App</h1>
 
-* It will generate a detail report which will contain the disease names in number of species.​
+<p align="center">
+<a href="https://github.com/FASAL-MITRA-SIH-22/Fasal-Mitra><img width=200px src="https://github.com/FASAL-MITRA-SIH-22/Fasal-mitra-frontend/blob/main/frontend/public/android-chrome-512x512.png"  alt="Project logo"/></a></a>
+ 
+</p>
 
-* If required, they can also verify it by the government authorities who will verify the report generated and will help with the input if required.​
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#-table-of-contents)
 
-* The collected data will help our system to predict the diseases in more accurate way due to self-learning mechanism.​
+This branch contains the PDF generator for the generation of the report in the form of PDF.
 
-* The system will be easy to use with some basics functionalities which will make it user friendly for farmers.
+The system architecture for the application is as followed:
+
+<a href="https://github.com/FASAL-MITRA-SIH-22/Fasal-mitra-frontend"><img width="auto" src="https://github.com/FASAL-MITRA-SIH-22/Fasal-Mitra/blob/main/AboutProject/ArchitectureDiagram.svg"  alt="System Architecture"/></a></a>

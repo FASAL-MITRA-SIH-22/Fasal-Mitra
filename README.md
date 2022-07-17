@@ -125,7 +125,7 @@ A step by step series of examples that tell you how to get a development env run
 ## :brain: Contribution over Time <a name="contribution"></a>
 
 <div align="center">
- <a href="https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=FASAL-MITRA-SIH-22/Fasal-mitra-frontend">
+ <a href="https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=FASAL-MITRA-SIH-22/Fasal-Mitra">
   <img src="https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=FASAL-MITRA-SIH-22/Fasal-mitra-frontend" alt="Contribution image"/>
  </a>
 </div>

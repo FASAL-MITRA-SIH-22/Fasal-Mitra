@@ -1,7 +1,7 @@
 <h1 align="center">Fasal-Mitra App</h1>
 
 <p align="center">
-<a href="https://github.com/FASAL-MITRA-SIH-22/Fasal-mitra-frontend"><img width=200px src="https://github.com/FASAL-MITRA-SIH-22/Fasal-mitra-frontend/blob/main/frontend/public/android-chrome-512x512.png"  alt="Project logo"/></a></a>
+<a href="https://github.com/FASAL-MITRA-SIH-22/Fasal-Mitra"><img width=200px src="https://github.com/FASAL-MITRA-SIH-22/Fasal-mitra-frontend/blob/main/frontend/public/android-chrome-512x512.png"  alt="Project logo"/></a></a>
  
 </p>
 

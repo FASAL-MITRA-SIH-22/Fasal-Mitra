@@ -1,0 +1,4 @@
+url in first line, disease in second, vegetable in 3rd
+https://www.google.com/search?q=potato+early+blight&client=ubuntu&hs=PwN&channel=fs&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjs_KjJu972AhVwsFYBHdVrBOYQ_AUoAXoECAIQAw&biw=1294&bih=656&dpr=1
+Potato
+Early_blight

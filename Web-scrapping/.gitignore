@@ -1,0 +1,6 @@
+web-scraping/*
+!web-scraping/images.py
+!web-scraping/diseases.py
+!web-scraping/diseases.csv
+!web-scraping/plantData.csv
+!web-scraping/input.txt

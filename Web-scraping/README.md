@@ -7,7 +7,7 @@
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#-table-of-contents)
 
-This folder contains the Web Scarpping part that scrapes the web for the information in addition to the database.
+This folder contains the Web Scraping part that scrapes the web for the information in addition to the database.
 
 The system architecture for the application is as followed:
 

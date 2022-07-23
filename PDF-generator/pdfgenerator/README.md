@@ -7,7 +7,7 @@
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#-table-of-contents)
 
-This branch contains the PDF generator that will generate the report in the form of a PDF.
+This folder contains the PDF generator that will generate the report in the form of a PDF.
 
 The system architecture for the application is as followed:
 

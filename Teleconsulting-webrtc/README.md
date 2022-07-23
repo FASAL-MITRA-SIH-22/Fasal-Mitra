@@ -7,7 +7,7 @@
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#-table-of-contents)
 
-This branch contains the Teleconsulting Part that will help the farmers to consult with the experts thus clearing their doubts.
+This folder contains the Teleconsulting Part that will help the farmers to consult with the experts thus clearing their doubts.
 
 The system architecture for the application is as followed:
 

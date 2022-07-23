@@ -7,7 +7,7 @@
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#-table-of-contents)
 
-This branch contains the frontend. The frontend is build in React, TailwindCSS and MaterialUI. The frontend calls different API's based on the different functionalities.
+This folder contains the frontend. The frontend is build in React, TailwindCSS and MaterialUI. The frontend calls different API's based on the different functionalities.
 
 The system architecture for the application is as followed:
 

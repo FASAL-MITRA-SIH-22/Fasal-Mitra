@@ -1,6 +1,7 @@
 <h1 align="center">Fasal-Mitra App</h1>
 
 <p align="center">
+
 <a href="https://github.com/FASAL-MITRA-SIH-22/Fasal-Mitra"><img width=200px src="https://github.com/FASAL-MITRA-SIH-22/Fasal-mitra-frontend/blob/main/frontend/public/android-chrome-512x512.png"  alt="Project logo"/></a>
  
 </p>
@@ -120,8 +121,8 @@ A step by step series of examples that tell you how to get a development env run
 
 ## :pencil2: Authors <a name="authors"></a>
 
-- [Ishan Kulkarni](https://www.linkedin.com/in/anurag-g-a01531198)
-- [Anurag Ghosh](https://www.linkedin.com/in/kulkarniishan)
+- [Ishan Kulkarni](https://www.linkedin.com/in/kulkarniishan)
+- [Anurag Ghosh](https://www.linkedin.com/in/anurag-g-a01531198)
 - [Dhruv Solanki](#)
 - [Rajas Bondale](#)
 - [Aditi Pawar](#)
@@ -137,4 +138,3 @@ A step by step series of examples that tell you how to get a development env run
 </div>
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#-authors-a-name--authorsa)
-

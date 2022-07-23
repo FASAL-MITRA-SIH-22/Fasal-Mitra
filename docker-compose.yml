@@ -1,0 +1,51 @@
+version: '3.0'
+
+services:
+  auth:
+    build: ./auth
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - redis
+    links: ["redis"] 
+    environment:
+      - MONGO_URI=mongodb+srv://fasalmitra:fasalmitra2022@cluster0.k8bxu.mongodb.net/mainDB?retryWrites=true&w=majority
+      - EXPIRATION_TIME=2617920000
+    networks:
+      - web
+  dl:
+    build: ./dl
+    restart: always
+    ports:
+      - "8082:5000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MONGO_URI=mongodb+srv://fasalmitra:fasalmitra2022@cluster0.k8bxu.mongodb.net/mainDB?retryWrites=true&w=majority
+    networks:
+      - web
+      - mainnet
+
+  nginx:
+    image: nginx
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./Nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - web
+      - mainnet
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - web
+
+networks:
+  web:
+    driver: bridge
+  mainnet:

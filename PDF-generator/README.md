@@ -7,7 +7,7 @@
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#-table-of-contents)
 
-This folder contains the PDF Generator. The PDF generator uses a python scrip to generate the PDF.
+This folder contains the PDF Generator that will generate the report in the form of pdf. The PDF generator uses a python scrip to generate the PDF.
 
 The system architecture for the application is as followed:
 

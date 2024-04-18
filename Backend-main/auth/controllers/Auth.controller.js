@@ -149,7 +149,6 @@ const login = async (req, res, next) => {
 const logout = async (req, res, next) => {
   try {
     const decoded = await verifyJWT(req.signedCookies.accessToken);
-    console.log(decoded.userId)
     await redisClient.del(decoded.userId);
     res
       .cookie("accessToken", "", { maxAge: 0 })

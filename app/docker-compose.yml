@@ -6,7 +6,7 @@ services:
     restart: always
     container_name: frontend-nginx
     ports:
-      - 80:80
+      - 8080:80
   auth:
     build: ./auth
     restart: always

@@ -3,7 +3,7 @@ FROM node:16.3.0-alpine AS builder
 # Set working directory
 WORKDIR /app
 # Copy all files from current directory to working dir in image
-COPY . .
+COPY frontend/. .
 # install node modules and build assets
 RUN npm install && npm run build
 
@@ -16,6 +16,6 @@ RUN rm -rf ./*
 # Copy static assets from builder stage
 COPY --from=builder /app/build .
 # Copy your Nginx configuration file to the container
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 # Containers run nginx with global directives and daemon off
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

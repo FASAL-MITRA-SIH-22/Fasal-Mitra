@@ -1,9 +1,9 @@
-*/node_modules
+node_modules
 data
 archive
-*/private.pem
-*/public.pem
-*/.env
+private.pem
+public.pem
+.env
 training
 flaskbvenv
 flasktestenv

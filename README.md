@@ -19,4 +19,4 @@ This folder contains most of the backend. The backend follows a microservice arc
 
 The system architecture for the application is as followed:
 
-<a href="https://github.com/FASAL-MITRA-SIH-22/Fasal-mitra-frontend"><img width="auto" src="https://github.com/FASAL-MITRA-SIH-22/Fasal-Mitra/blob/main/AboutProject/ArchitectureDiagram.svg"  alt="System Architecture"/></a>
+<a href="https://github.com/FASAL-MITRA-SIH-22/Fasal-mitra-frontend"><img width="auto" src="https://github.com/FASAL-MITRA-SIH-22/Fasal-mitra-frontend/raw/main/AboutProject/ArchitectureDiagram.svg"  alt="System Architecture"/></a>

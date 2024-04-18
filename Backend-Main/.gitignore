@@ -1,9 +1,0 @@
-*/node_modules
-data
-archive
-*/private.pem
-*/public.pem
-*/.env
-training
-flaskbvenv
-flasktestenv

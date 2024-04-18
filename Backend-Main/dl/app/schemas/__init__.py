@@ -1,2 +1,0 @@
-
-from .detectionHistory import validate_detectionHistory

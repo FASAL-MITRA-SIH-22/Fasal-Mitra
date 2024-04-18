@@ -1,11 +1,10 @@
 const { createClient } = require("redis");
+require("dotenv").config();
 
 let redisClient;
-
 const connect = async () => {
   try {
-    // redisClient = createClient("redis://redis:6379"); //Default port 6379
-    redisClient = createClient({ url: 'redis://redis:6379' })//for docker
+    redisClient = createClient({ url: process.env.REDIS_URI || 'redis://redis:6379' })
     await redisClient.connect();
     await redisClient.flushAll("ASYNC");
     console.log("Redis connected!!");

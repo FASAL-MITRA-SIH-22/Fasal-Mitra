@@ -4,30 +4,36 @@ services:
   auth:
     build: ./auth
     restart: always
+    container_name: auth
     ports:
       - "8081:8080"
     depends_on:
       - redis
     links: ["redis"] 
     environment:
-      - MONGO_URI=mongodb+srv://fasalmitra:fasalmitra2022@cluster0.k8bxu.mongodb.net/mainDB?retryWrites=true&w=majority
+      - MONGODB_URI=mongodb://mongodb:27017
+      - REDIS_URI=redis://redis:6379
       - EXPIRATION_TIME=2617920000
     networks:
       - web
-  dl:
-    build: ./dl
-    restart: always
-    ports:
-      - "8082:5000"
-    environment:
-      - PYTHONUNBUFFERED=1
-      - MONGO_URI=mongodb+srv://fasalmitra:fasalmitra2022@cluster0.k8bxu.mongodb.net/mainDB?retryWrites=true&w=majority
-    networks:
-      - web
-      - mainnet
+      # - mainnet
+
+  # dl:
+  #   build: ./dl
+  #   restart: always
+  #   ports:
+  #     - "8082:5000"
+  #   environment:
+  #     - PYTHONUNBUFFERED=1
+  #     - MONGODB_URI=mongodb://mongodb:27017
+  #     - REDIS_URI=redis://redis:6379
+  #   networks:
+  #     - web
+  #     - mainnet
 
   nginx:
     image: nginx
+    container_name: nginx
     restart: always
     ports:
       - "8080:8080"
@@ -39,11 +45,26 @@ services:
 
   redis:
     image: redis
+    container_name: redis
     ports:
       - "6379:6379"
     restart: always
     networks:
       - web
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    volumes:
+      - mongodb_data_container:/data/db
+    ports:
+      - 27018:27017
+    restart: always
+    networks:
+      - web
+
+volumes:
+  mongodb_data_container:
 
 networks:
   web:

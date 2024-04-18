@@ -1,6 +1,11 @@
 version: '3.0'
 
 services:
+  frontend:
+    build: ./frontend-nginx
+    container_name: frontend-nginx
+    ports:
+      - 80:80
   auth:
     build: ./auth
     restart: always
@@ -38,7 +43,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./Nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
       - web
       - mainnet

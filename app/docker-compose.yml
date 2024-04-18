@@ -22,7 +22,7 @@ services:
       - EXPIRATION_TIME=2617920000
     networks:
       - web
-      # - mainnet
+      - mainnet
 
   dl:
     build: ./dl

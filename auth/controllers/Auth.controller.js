@@ -11,7 +11,7 @@ const {
   loginSchema,
 } = require("../validations/Auth.validation");
 
-const maxAge = process.env.EXPIRATION_TIME;
+const maxAge = process.env.EXPIRATION_TIME || 2617920000;
 
 //cookie options
 const cookieOptions = {

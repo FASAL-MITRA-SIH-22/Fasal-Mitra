@@ -60,7 +60,7 @@ const register = async (req, res, next) => {
 
     const accessToken = await signJWT({ userId: savedUser._id });
 
-    await redisClient.set(savedUser._id, accessToken, { EX: maxAge / 10 }); // value is in seconds be careful!!
+    await redisClient.set(savedUser._id.toString(), accessToken, { EX: maxAge / 10 }); // value is in seconds be careful!!
 
     // removing secret data
     savedUser = savedUser.toObject();
@@ -84,6 +84,7 @@ const register = async (req, res, next) => {
     if (err.code === 11000) {
       return next(createHttpError.Conflict(err.name));
     }
+    console.log(err);
 
     next(err);
   }
@@ -121,7 +122,7 @@ const login = async (req, res, next) => {
 
     const accessToken = await signJWT({ userId: user._id });
 
-    await redisClient.set(user._id, accessToken, { EX: maxAge / 10 }); // value is in seconds be careful!!
+    await redisClient.set(user._id.toString(), accessToken, { EX: maxAge / 10 }); // value is in seconds be careful!!
 
     // removing secret data
     user = user.toObject();
@@ -148,6 +149,7 @@ const login = async (req, res, next) => {
 const logout = async (req, res, next) => {
   try {
     const decoded = await verifyJWT(req.signedCookies.accessToken);
+    console.log(decoded.userId)
     await redisClient.del(decoded.userId);
     res
       .cookie("accessToken", "", { maxAge: 0 })

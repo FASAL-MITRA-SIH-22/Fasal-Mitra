@@ -23,8 +23,8 @@ def create_app():
     app = Flask(__name__)
     app.register_blueprint(blueprint)
     app.json_encoder = JSONEncoder
-    # app.config["MONGO_URI"] = os.getenv("MONGO_URI")
-    app.config["MONGO_URI"] = "mongodb+srv://fasalmitra:fasalmitra2022@cluster0.k8bxu.mongodb.net/mainDB?retryWrites=true&w=majority"
+    # app.config["MONGODB_URI"] = os.getenv("MONGODB_URI")
+    app.config["MONGODB_URI"] = "mongodb://mongodb:27017"
     app.config['CORS_RESOURCES'] = {r"*": {"origins": "http://localhost:3000"}}
     from app.db_config import mongo
     CORS(app, supports_credentials=True)
